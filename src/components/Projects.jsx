@@ -1,121 +1,77 @@
-import { useEffect, useState } from "react";
-import Typed from "typed.js";
 import { projects } from "../data/portfolioData.js";
 
-const Projects = () => {
-  const [expanded, setExpanded] = useState({});
+const Projects = () => (
+  <section id="projects" className="bg-white py-20 dark:bg-slate-900/60">
+    <div className="mx-auto max-w-7xl space-y-8 px-4 lg:px-6">
+      <div>
+        <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">Projects</h2>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">
+          Selected work highlighting backend systems, real-time analytics, and AI.
+        </p>
+      </div>
 
-  useEffect(() => {
-    const instances = projects.map((project, index) => {
-      if (!project.snippets?.length) {
-        return null;
-      }
-      const selector = `.project-typing-${index}`;
-      if (!document.querySelector(selector)) {
-        return null;
-      }
-      return new Typed(selector, {
-        strings: project.snippets,
-        typeSpeed: 60,
-        backSpeed: 30,
-        loop: true,
-      });
-    });
-
-    return () => instances.forEach((instance) => instance?.destroy());
-  }, []);
-
-  const toggleDescription = (name) => {
-    setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
-  };
-
-  return (
-    <section id="projects" className="bg-slate-50 py-20 dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl space-y-8 px-4 lg:px-6">
-        <div>
-          <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">Projects</h2>
-          <p className="text-slate-600 dark:text-slate-300">
-            Selected work highlighting problem-solving and system design.
-          </p>
-        </div>
-
-        <div className="grid auto-rows-fr items-stretch gap-2 md:grid-cols-4">
-          {projects.map((project, index) => (
-            <article
-              key={project.name}
-              className="mx-auto flex h-full w-full max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/70"
-            >
-              <div className="relative h-96 w-full bg-slate-100 sm:h-96 dark:bg-slate-800">
-                <img
-                  src={project.imageUrl}
-                  alt={project.name}
-                  className="h-full w-full object-cover object-center"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-1 flex-col space-y-3 p-6">
-                <div className="min-h-[64px]">
-                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{project.name}</h3>
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <article
+            key={project.name}
+            className="group rounded-2xl border border-slate-200 bg-white p-7 shadow-soft transition-all hover:border-brand/40 hover:shadow-xl dark:border-slate-800 dark:bg-slate-950/70"
+          >
+            <div className="space-y-5">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">
+                    {project.name}
+                  </h3>
+                  <p className="mt-1 text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 font-medium">
                     {project.stack}
                   </p>
                 </div>
-                <div className="flex flex-col gap-3">
-                  {(() => {
-                    const isLong = project.description.length > 140;
-                    const isExpanded = expanded[project.name];
-                    return (
-                      <div>
-                        <p
-                          className={`min-h-[72px] text-sm text-slate-600 dark:text-slate-300 lg:min-h-[88px] ${isLong && !isExpanded ? "line-clamp-3" : ""
-                            }`}
-                        >
-                          {project.description}
-                        </p>
-                        {isLong ? (
-                          <button
-                            type="button"
-                            onClick={() => toggleDescription(project.name)}
-                            className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--hero-subtitle)]"
-                          >
-                            {isExpanded ? "Show less" : "Show more"}
-                            <i className={`fas ${isExpanded ? "fa-angle-up" : "fa-angle-down"}`}></i>
-                          </button>
-                        ) : null}
-                      </div>
-                    );
-                  })()}
-                  <div className="min-h-[24px] text-xs font-semibold text-gradient lg:min-h-[28px]">
-                    {project.snippets?.length ? (
-                      <span className={`project-typing-${index}`}></span>
-                    ) : null}
-                  </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-brand"></span>
                 </div>
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-full bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brandDark"
+              </div>
+
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {project.description}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {project.snippets?.map((snippet, idx) => (
+                  <span
+                    key={idx}
+                    className="rounded-full border border-slate-100 bg-slate-50 px-2.5 py-0.5 text-[10px] font-semibold text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400"
                   >
-                    View Files
-                  </a>
+                    {snippet}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-800/50">
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-brand px-3.5 py-1.5 text-xs font-bold text-brand hover:bg-brand hover:text-white transition-colors"
+                >
+                  <i className="fab fa-github"></i> Source
+                </a>
+                {project.demoUrl && project.demoUrl !== "#" ? (
                   <a
                     href={project.demoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-400 hover:text-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3.5 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors"
                   >
-                    Demo
+                    <i className="fas fa-external-link-alt"></i> Demo
                   </a>
-                </div>
+                ) : null}
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Projects;

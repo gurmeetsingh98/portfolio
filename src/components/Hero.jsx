@@ -70,7 +70,7 @@ const Hero = () => {
               href={hero.resumeUrl}
               target="_blank"
               rel="noreferrer"
-              download="GurmeetSingh_Resume.pdf"
+              download="Gurmeet_Singh_Resume_.pdf"
               className="rounded-full bg-brand border border-white/60 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-white"
             >
               Download Resume
