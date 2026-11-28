@@ -53,7 +53,7 @@ const About = () => {
             </ul>
           </div>
           <a
-            href="/Gurmeet_Singh_Resume_.pdf"
+            href="/Gurmeet_Singh_Resume.pdf"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brandDark"
